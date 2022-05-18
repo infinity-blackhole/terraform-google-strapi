@@ -1,12 +1,12 @@
 resource "google_compute_url_map" "strapi" {
   project         = var.project
-  name            = "strapi"
+  name            = var.name
   default_service = google_compute_backend_service.strapi.id
 }
 
 resource "google_compute_backend_service" "strapi" {
   project = var.project
-  name    = "strapi"
+  name    = var.name
   backend {
     group = google_compute_region_network_endpoint_group.strapi.id
   }
@@ -15,7 +15,7 @@ resource "google_compute_backend_service" "strapi" {
 resource "google_compute_region_network_endpoint_group" "strapi" {
   project               = var.project
   provider              = google
-  name                  = "strapi"
+  name                  = var.name
   network_endpoint_type = "SERVERLESS"
   region                = var.region
   cloud_run {
