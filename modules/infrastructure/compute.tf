@@ -22,3 +22,17 @@ resource "google_compute_region_network_endpoint_group" "strapi" {
     service = google_cloud_run_service.strapi.name
   }
 }
+
+resource "google_compute_network" "strapi_cloudsql" {
+  project = var.project
+  name    = "${var.name}-cloudsql"
+}
+
+resource "google_compute_global_address" "strapi_cloudsql" {
+  project       = var.project
+  name          = "${var.name}-cloudsql"
+  purpose       = "VPC_PEERING"
+  address_type  = "INTERNAL"
+  prefix_length = 16
+  network       = google_compute_network.strapi_cloudsql.id
+}
