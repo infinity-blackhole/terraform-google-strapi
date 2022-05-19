@@ -39,16 +39,8 @@ resource "google_sql_database" "strapi" {
   instance = google_sql_database_instance.strapi.name
 }
 
-resource "random_password" "strapi_cloudsql_password" {
-  length  = 80
-  lower   = true
-  upper   = true
-  number  = true
-  special = false
-}
-
 resource "google_sql_user" "strapi" {
   name     = google_service_account.strapi.account_id
   instance = google_sql_database_instance.strapi.name
-  password = random_password.strapi_cloudsql_password.result
+  type     = "CLOUD_IAM_SERVICE_ACCOUNT"
 }
