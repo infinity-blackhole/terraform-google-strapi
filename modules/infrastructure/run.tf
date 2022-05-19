@@ -19,7 +19,7 @@ resource "google_cloud_run_service" "strapi" {
     }
     spec {
       containers {
-        image = var.image
+        image = "gcr.io/cloudrun/placeholder@sha256:b046cf24d83df99a2e943dd2e5e40d06fe5c7e1a725c521de9c08ef15cbb2c29"
         ports {
           container_port = 1337
         }
@@ -48,6 +48,11 @@ resource "google_cloud_run_service" "strapi" {
       }
       service_account_name = google_service_account.strapi.email
     }
+  }
+  lifecycle {
+    ignore_changes = [
+      template.spec.containers[0].image
+    ]
   }
 }
 
