@@ -20,9 +20,9 @@ variable "name" {
 }
 
 variable "image" {
-  type = string
+  type        = string
   description = "The Docker image to use"
-  default = "gcr.io/cloudrun/placeholder@sha256:b046cf24d83df99a2e943dd2e5e40d06fe5c7e1a725c521de9c08ef15cbb2c29"
+  default     = "gcr.io/cloudrun/placeholder"
 }
 
 variable "max_instances" {
