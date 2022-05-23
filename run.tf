@@ -54,6 +54,9 @@ resource "google_cloud_run_service" "strapi" {
       template.spec.containers[0].image
     ]
   }
+  depends_on = [
+    google_project_service.run
+  ]
 }
 
 resource "google_cloud_run_service_iam_member" "strapi_all_user_run_invoker" {
@@ -70,4 +73,7 @@ resource "google_cloud_run_service_iam_member" "strapi_strapi_cloudsql_instance_
   location = google_cloud_run_service.strapi.location
   role     = "roles/cloudsql.instanceUser"
   member   = google_service_account.strapi.email
+  depends_on = [
+    google_project_service.sqladmin
+  ]
 }
