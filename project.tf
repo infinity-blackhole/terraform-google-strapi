@@ -18,3 +18,10 @@ resource "google_project_service" "sqladmin" {
   disable_dependent_services = false
   disable_on_destroy         = true
 }
+
+resource "google_project_service" "vpcaccess" {
+  project                    = var.project
+  service                    = "vpcaccess.googleapis.com"
+  disable_dependent_services = false
+  disable_on_destroy         = true
+}
