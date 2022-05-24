@@ -34,11 +34,13 @@ resource "google_sql_database_instance" "strapi" {
 }
 
 resource "google_sql_database" "strapi" {
+  project  = var.project
   name     = var.name
   instance = google_sql_database_instance.strapi.name
 }
 
 resource "google_sql_user" "strapi" {
+  project  = var.project
   name     = google_service_account.strapi.account_id
   instance = google_sql_database_instance.strapi.name
   type     = "CLOUD_IAM_SERVICE_ACCOUNT"
