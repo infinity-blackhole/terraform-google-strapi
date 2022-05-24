@@ -14,7 +14,6 @@ resource "google_compute_backend_service" "strapi" {
 
 resource "google_compute_region_network_endpoint_group" "strapi" {
   project               = var.project
-  provider              = google
   name                  = var.name
   network_endpoint_type = "SERVERLESS"
   region                = var.region

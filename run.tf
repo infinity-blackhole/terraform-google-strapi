@@ -37,6 +37,10 @@ resource "google_cloud_run_service" "strapi" {
           name  = "DATABASE_USERNAME"
           value = google_sql_user.strapi.name
         }
+        env {
+          name  = "INSTANCE_CONNECTION_NAME"
+          value = google_sql_database_instance.strapi.connection_name
+        }
         resources {
           limits = {
             cpu    = "1000m"
