@@ -34,7 +34,7 @@ variable "max_instances" {
 variable "cloudsql_tier" {
   type        = string
   description = "The tier of the Cloud SQL instance"
-  default     = "db-n1-standard-1"
+  default     = "db-f1-micro"
 }
 
 variable "cloudsql_availability_type" {
