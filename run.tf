@@ -38,8 +38,8 @@ resource "google_cloud_run_service" "strapi" {
           value = google_sql_user.strapi.name
         }
         env {
-          name  = "INSTANCE_CONNECTION_NAME"
-          value = google_sql_database_instance.strapi.connection_name
+          name  = "DATABASE_HOST"
+          value = "/cloudsql/${google_sql_database_instance.strapi.connection_name}"
         }
         resources {
           limits = {
@@ -78,6 +78,15 @@ resource "google_cloud_run_service_iam_member" "strapi_all_user_run_invoker" {
 resource "google_project_iam_member" "strapi_strapi_cloudsql_instance_user" {
   project = var.project
   role    = "roles/cloudsql.instanceUser"
+  member  = "serviceAccount:${google_service_account.strapi.email}"
+  depends_on = [
+    google_project_service.sqladmin
+  ]
+}
+
+resource "google_project_iam_member" "strapi_strapi_cloudsql_client" {
+  project = var.project
+  role    = "roles/cloudsql.client"
   member  = "serviceAccount:${google_service_account.strapi.email}"
   depends_on = [
     google_project_service.sqladmin
