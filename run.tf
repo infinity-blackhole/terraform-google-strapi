@@ -5,12 +5,18 @@ resource "google_cloud_run_service" "strapi" {
   autogenerate_revision_name = true
   metadata {
     annotations = {
-      "run.googleapis.com/ingress" = "internal-and-cloud-load-balancing"
+      "client.knative.dev/user-image"     = var.image
+      "run.googleapis.com/client-name"    = "gcloud"
+      "run.googleapis.com/client-version" = "381.0.0"
+      "run.googleapis.com/ingress"        = "internal-and-cloud-load-balancing"
     }
   }
   template {
     metadata {
       annotations = {
+        "client.knative.dev/user-image"           = var.image
+        "run.googleapis.com/client-name"          = "gcloud"
+        "run.googleapis.com/client-version"       = "381.0.0"
         "run.googleapis.com/vpc-access-connector" = google_vpc_access_connector.strapi_cloudsql.name
         "run.googleapis.com/vpc-access-egress"    = "private-ranges-only"
         "run.googleapis.com/cloudsql-instances"   = google_sql_database_instance.strapi.connection_name
@@ -24,19 +30,11 @@ resource "google_cloud_run_service" "strapi" {
           container_port = 1337
         }
         env {
-          name = "DATABASE_HOST"
-          value = join(":", [
-            google_sql_database_instance.strapi.project,
-            google_sql_database_instance.strapi.region,
-            google_sql_database_instance.strapi.name,
-          ])
-        }
-        env {
           name  = "DATABASE_NAME"
           value = google_sql_database.strapi.name
         }
         env {
-          name  = "DATABASE_USER"
+          name  = "DATABASE_USERNAME"
           value = google_sql_user.strapi.name
         }
         resources {
@@ -51,6 +49,12 @@ resource "google_cloud_run_service" "strapi" {
   }
   lifecycle {
     ignore_changes = [
+      metadata[0].annotations["client.knative.dev/user-image"],
+      metadata[0].annotations["run.googleapis.com/client-name"],
+      metadata[0].annotations["run.googleapis.com/client-version"],
+      template[0].metadata[0].annotations["client.knative.dev/user-image"],
+      template[0].metadata[0].annotations["run.googleapis.com/client-name"],
+      template[0].metadata[0].annotations["run.googleapis.com/client-version"],
       template[0].spec[0].containers[0].image
     ]
   }
