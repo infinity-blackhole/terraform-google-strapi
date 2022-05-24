@@ -17,7 +17,7 @@ resource "google_cloud_run_service" "strapi" {
         "client.knative.dev/user-image"           = var.image
         "run.googleapis.com/client-name"          = "gcloud"
         "run.googleapis.com/client-version"       = "381.0.0"
-        "run.googleapis.com/vpc-access-connector" = google_vpc_access_connector.strapi_cloudsql.name
+        "run.googleapis.com/vpc-access-connector" = google_vpc_access_connector.strapi.name
         "run.googleapis.com/vpc-access-egress"    = "private-ranges-only"
         "run.googleapis.com/cloudsql-instances"   = google_sql_database_instance.strapi.connection_name
         "autoscaling.knative.dev/maxScale"        = var.max_instances

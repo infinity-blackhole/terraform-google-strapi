@@ -1,6 +1,11 @@
+resource "random_id" "strapi_cloudsql" {
+  byte_length = 4
+  prefix      = "${var.name}-"
+}
+
 resource "google_sql_database_instance" "strapi" {
   project             = var.project
-  name                = var.name
+  name                = random_id.strapi_cloudsql.hex
   region              = var.region
   database_version    = "POSTGRES_14"
   deletion_protection = false
@@ -13,7 +18,7 @@ resource "google_sql_database_instance" "strapi" {
       zone = var.zone
     }
     ip_configuration {
-      private_network = google_compute_network.strapi_cloudsql.id
+      private_network = google_compute_network.strapi.id
     }
     backup_configuration {
       enabled    = true
@@ -34,7 +39,7 @@ resource "google_sql_database_instance" "strapi" {
       settings[0].disk_size
     ]
   }
-  depends_on = [google_service_networking_connection.strapi_cloudsql]
+  depends_on = [google_service_networking_connection.strapi]
 }
 
 resource "google_sql_database" "strapi" {
