@@ -67,12 +67,10 @@ resource "google_cloud_run_service_iam_member" "strapi_all_user_run_invoker" {
   member   = "allUsers"
 }
 
-resource "google_cloud_run_service_iam_member" "strapi_strapi_cloudsql_instance_user" {
-  project  = var.project
-  service  = google_cloud_run_service.strapi.name
-  location = google_cloud_run_service.strapi.location
-  role     = "roles/cloudsql.instanceUser"
-  member   = google_service_account.strapi.email
+resource "google_project_iam_member" "strapi_strapi_cloudsql_instance_user" {
+  project = var.project
+  role    = "roles/cloudsql.instanceUser"
+  member  = "serviceAccount:${google_service_account.strapi.email}"
   depends_on = [
     google_project_service.sqladmin
   ]
