@@ -45,6 +45,10 @@ resource "google_cloud_run_service" "strapi" {
           name  = "DATABASE_HOST"
           value = "/cloudsql/${google_sql_database_instance.strapi.connection_name}"
         }
+        env {
+          name  = "UPLOAD_GCS_BUCKET_NAME"
+          value = google_storage_bucket.strapi_upload.name
+        }
         resources {
           limits = {
             cpu    = "1000m"
