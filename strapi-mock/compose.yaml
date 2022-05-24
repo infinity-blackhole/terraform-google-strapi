@@ -1,0 +1,24 @@
+services:
+  strapi-poc:
+    build: .
+    image: strapi-poc:latest
+    restart: unless-stopped
+    environment:
+      UPLOAD_GCS_BUCKET_NAME: machinelearningsandbox-265814-strapi
+      DATABASE_HOST: strapi-poc-postgres2
+      DATABASE_NAME: strapi-poc
+      DATABASE_USERNAME: strapi-poc
+      JWT_SECRET: TSXCVmhGrD3B75RDj&ri8WqocQQjd*n*zgq%u#vs%y8!BVeowbchsuZ^3x4Z
+      DATABASE_PASSWORD: 5kMa9%nmdKcd6@
+    ports:
+      - 1337:1337
+    depends_on:
+      - strapi-poc-postgres
+
+  strapi-poc-postgres:
+    image: postgres:12.0-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: strapi-poc
+      POSTGRES_PASSWORD: 5kMa9%nmdKcd6@
+      POSTGRES_DB: strapi-poc
