@@ -38,6 +38,10 @@ resource "google_cloud_run_service" "strapi" {
           value = google_sql_user.strapi.name
         }
         env {
+          name  = "DATABASE_PASSWORD"
+          value = google_sql_user.strapi.password
+        }
+        env {
           name  = "DATABASE_HOST"
           value = "/cloudsql/${google_sql_database_instance.strapi.connection_name}"
         }
