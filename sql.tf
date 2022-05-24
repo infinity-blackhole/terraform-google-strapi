@@ -24,6 +24,10 @@ resource "google_sql_database_instance" "strapi" {
         retained_backups = 180 # 6 months
       }
     }
+    database_flags {
+      name  = "cloudsql.iam_authentication"
+      value = "on"
+    }
   }
   lifecycle {
     ignore_changes = [
