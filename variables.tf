@@ -3,6 +3,11 @@ variable "project" {
   description = "The Google Cloud project ID"
 }
 
+variable "multi_region" {
+  type        = string
+  description = "The Google Cloud multi region"
+}
+
 variable "region" {
   type        = string
   description = "The Google Cloud region"
