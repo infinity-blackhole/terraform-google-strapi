@@ -57,8 +57,9 @@ resource "random_password" "strapi_cloudsql" {
 }
 
 resource "google_sql_user" "strapi" {
-  project  = var.project
-  name     = google_service_account.strapi.account_id
-  instance = google_sql_database_instance.strapi.name
-  password = random_password.strapi_cloudsql.result
+  project         = var.project
+  name            = google_service_account.strapi.account_id
+  instance        = google_sql_database_instance.strapi.name
+  password        = random_password.strapi_cloudsql.result
+  deletion_policy = "ABANDON"
 }
