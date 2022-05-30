@@ -38,8 +38,13 @@ resource "google_cloud_run_service" "strapi" {
           value = google_sql_user.strapi.name
         }
         env {
-          name  = "DATABASE_PASSWORD"
-          value = google_sql_user.strapi.password
+          name = "DATABASE_PASSWORD"
+          value_from {
+            secret_key_ref {
+              name = google_secret_manager_secret.strapi_cloudsql_password.secret_id
+              key  = "latest"
+            }
+          }
         }
         env {
           name  = "DATABASE_HOST"
