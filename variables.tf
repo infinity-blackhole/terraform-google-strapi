@@ -30,12 +30,6 @@ variable "image" {
   default     = "gcr.io/cloudrun/placeholder"
 }
 
-variable "max_instances" {
-  type        = number
-  description = "The maximum number of instances to run"
-  default     = 1
-}
-
 variable "cloudsql_tier" {
   type        = string
   description = "The tier of the Cloud SQL instance"
