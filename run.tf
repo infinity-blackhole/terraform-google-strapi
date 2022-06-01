@@ -3,52 +3,10 @@ resource "google_cloud_run_service" "strapi" {
   name                       = var.name
   location                   = var.region
   autogenerate_revision_name = true
-  metadata {
-    annotations = {
-      "client.knative.dev/user-image"     = var.image
-      "run.googleapis.com/client-name"    = "gcloud"
-      "run.googleapis.com/client-version" = "381.0.0"
-      "run.googleapis.com/ingress"        = "internal-and-cloud-load-balancing"
-    }
-  }
   template {
-    metadata {
-      annotations = {
-        "client.knative.dev/user-image"           = var.image
-        "run.googleapis.com/client-name"          = "gcloud"
-        "run.googleapis.com/client-version"       = "381.0.0"
-        "run.googleapis.com/vpc-access-connector" = google_vpc_access_connector.strapi.name
-        "run.googleapis.com/vpc-access-egress"    = "private-ranges-only"
-        "run.googleapis.com/cloudsql-instances"   = google_sql_database_instance.strapi.connection_name
-        "autoscaling.knative.dev/maxScale"        = var.max_instances
-      }
-    }
     spec {
       containers {
         image = var.image
-        ports {
-          container_port = 1337
-        }
-        env {
-          name  = "DATABASE_NAME"
-          value = google_sql_database.strapi.name
-        }
-        env {
-          name  = "DATABASE_USERNAME"
-          value = google_sql_user.strapi.name
-        }
-        env {
-          name  = "DATABASE_PASSWORD"
-          value = google_sql_user.strapi.password
-        }
-        env {
-          name  = "DATABASE_HOST"
-          value = "/cloudsql/${google_sql_database_instance.strapi.connection_name}"
-        }
-        env {
-          name  = "UPLOAD_GCS_BUCKET_NAME"
-          value = google_storage_bucket.strapi_upload.name
-        }
         resources {
           limits = {
             cpu    = "1000m"

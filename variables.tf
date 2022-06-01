@@ -36,6 +36,18 @@ variable "max_instances" {
   default     = 1
 }
 
+variable "cpu" {
+  type        = string
+  description = "The amount of CPU to allocate to each instance"
+  default     = "1000m"
+}
+
+variable "memory" {
+  type        = string
+  description = "The amount of memory to allocate to each instance"
+  default     = "256Mi"
+}
+
 variable "cloudsql_tier" {
   type        = string
   description = "The tier of the Cloud SQL instance"
