@@ -35,11 +35,11 @@ resource "google_cloud_run_service" "strapi" {
         }
         env {
           name  = "DATABASE_USERNAME"
-          value = google_sql_user.strapi.name
+          value = local.stripe_cloud_sql_username
         }
         env {
           name  = "DATABASE_PASSWORD"
-          value = google_sql_user.strapi.password
+          value = ""
         }
         env {
           name  = "DATABASE_HOST"
