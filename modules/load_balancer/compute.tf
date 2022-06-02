@@ -58,6 +58,6 @@ resource "google_compute_region_network_endpoint_group" "strapi" {
   network_endpoint_type = "SERVERLESS"
   region                = var.region
   cloud_run {
-    service = data.google_cloud_run_service.strapi.name
+    service = var.name
   }
 }
