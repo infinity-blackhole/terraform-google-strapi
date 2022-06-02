@@ -6,8 +6,8 @@ resource "google_cloud_run_service" "strapi" {
   metadata {
     annotations = {
       "client.knative.dev/user-image"     = var.image
-      "run.googleapis.com/client-name"    = "gcloud"
-      "run.googleapis.com/client-version" = "381.0.0"
+      "run.googleapis.com/client-name"    = var.client_name
+      "run.googleapis.com/client-version" = var.client_version
       "run.googleapis.com/ingress"        = "internal-and-cloud-load-balancing"
     }
   }
@@ -15,8 +15,8 @@ resource "google_cloud_run_service" "strapi" {
     metadata {
       annotations = {
         "client.knative.dev/user-image"           = var.image
-        "run.googleapis.com/client-name"          = "gcloud"
-        "run.googleapis.com/client-version"       = "381.0.0"
+        "run.googleapis.com/client-name"          = var.client_name
+        "run.googleapis.com/client-version"       = var.client_version
         "run.googleapis.com/vpc-access-connector" = google_vpc_access_connector.strapi.name
         "run.googleapis.com/vpc-access-egress"    = "private-ranges-only"
         "run.googleapis.com/cloudsql-instances"   = google_sql_database_instance.strapi.connection_name
@@ -51,8 +51,8 @@ resource "google_cloud_run_service" "strapi" {
         }
         resources {
           limits = {
-            cpu    = "1000m"
-            memory = "256Mi"
+            cpu    = var.cpu
+            memory = var.memory
           }
         }
       }
