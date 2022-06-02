@@ -1,37 +1,37 @@
 resource "google_compute_global_address" "strapi" {
   project    = var.project
-  name       = "strapi"
+  name       = var.name
   ip_version = "IPV4"
 }
 
 resource "google_compute_global_forwarding_rule" "strapi_http" {
-  name       = "strapi"
+  name       = var.name
   target     = google_compute_target_http_proxy.strapi_http.self_link
   ip_address = google_compute_global_address.strapi.address
   port_range = "80"
 }
 
 resource "google_compute_global_forwarding_rule" "strapi_https" {
-  name       = "strapi"
+  name       = var.name
   target     = google_compute_target_https_proxy.strapi_https.self_link
   ip_address = google_compute_global_address.strapi.address
   port_range = "443"
 }
 
 resource "google_compute_target_http_proxy" "strapi_http" {
-  name    = "strapi-http"
+  name    = "${var.name}-http"
   url_map = google_compute_url_map.strapi.name
 }
 
 resource "google_compute_target_https_proxy" "strapi_https" {
-  name             = "strapi-https"
+  name             = "${var.name}-https"
   ssl_certificates = [google_compute_managed_ssl_certificate.strapi.id]
   url_map          = google_compute_url_map.strapi.name
 }
 
 resource "google_compute_managed_ssl_certificate" "strapi" {
   project = var.project
-  name    = "strapi"
+  name    = var.name
 
   managed {
     domains = var.domains
