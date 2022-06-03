@@ -11,7 +11,6 @@ variable "region" {
 variable "name" {
   type        = string
   description = "The full name of the service"
-  default     = "strapi"
 }
 
 variable "brand" {
@@ -22,4 +21,14 @@ variable "brand" {
 variable "domains" {
   type        = list(string)
   description = "The domains to serve"
+}
+
+variable "app_service" {
+  type        = string
+  description = "The Cloud Run App service"
+}
+
+variable "cms_service" {
+  type        = string
+  description = "The Cloud Run CMS service ID"
 }

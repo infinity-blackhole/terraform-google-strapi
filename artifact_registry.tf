@@ -5,4 +5,7 @@ resource "google_artifact_registry_repository" "default_container_registry" {
   repository_id = "${var.name}-container-registry"
   description   = "${title(var.name)} container registry"
   format        = "DOCKER"
+  depends_on = [
+    google_project_service.artifact_registry
+  ]
 }
