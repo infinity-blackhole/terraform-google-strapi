@@ -12,6 +12,15 @@ module "strapi" {
   zone         = "europe-west1-b"
 }
 
+module "app" {
+  source  = "../../modules/app"
+  project = "par-unicorn-dev"
+  region  = "europe-west1"
+  depends_on = [
+    module.strapi
+  ]
+}
+
 module "edge" {
   source  = "../../modules/edge"
   project = "par-unicorn-dev"
@@ -19,6 +28,10 @@ module "edge" {
   brand   = "202922177550"
   domains = [
     "unicorn.dev.sfeirfactory.com"
+  ]
+  depends_on = [
+    module.strapi,
+    module.app
   ]
 }
 

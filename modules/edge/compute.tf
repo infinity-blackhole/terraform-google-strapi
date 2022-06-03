@@ -74,7 +74,19 @@ resource "google_compute_managed_ssl_certificate" "strapi" {
 resource "google_compute_url_map" "strapi" {
   project         = var.project
   name            = var.name
-  default_service = google_compute_backend_service.strapi.id
+  default_service = google_compute_backend_service.app.id
+  host_rule {
+    hosts        = var.domains
+    path_matcher = "strapi"
+  }
+  path_matcher {
+    default_service = google_compute_backend_service.app.id
+    name            = "strapi"
+    path_rule {
+      paths   = ["/dashboard"]
+      service = google_compute_backend_service.strapi.id
+    }
+  }
 }
 
 resource "google_compute_backend_service" "strapi" {
@@ -90,12 +102,47 @@ resource "google_compute_backend_service" "strapi" {
   }
 }
 
+data "google_cloud_run_service" "strapi" {
+  project  = var.project
+  location = var.region
+  name     = var.name
+}
+
 resource "google_compute_region_network_endpoint_group" "strapi" {
   project               = var.project
   name                  = var.name
   network_endpoint_type = "SERVERLESS"
   region                = var.region
   cloud_run {
-    service = var.name
+    service = data.google_cloud_run_service.strapi.name
+  }
+}
+
+resource "google_compute_backend_service" "app" {
+  project     = var.project
+  name        = "${var.name}-app"
+  description = title(var.name)
+  backend {
+    group = google_compute_region_network_endpoint_group.app.id
+  }
+  iap {
+    oauth2_client_id     = google_iap_client.strapi.client_id
+    oauth2_client_secret = google_iap_client.strapi.secret
+  }
+}
+
+data "google_cloud_run_service" "app" {
+  project  = var.project
+  location = var.region
+  name     = "${var.name}-app"
+}
+
+resource "google_compute_region_network_endpoint_group" "app" {
+  project               = var.project
+  name                  = "${var.name}-app"
+  network_endpoint_type = "SERVERLESS"
+  region                = var.region
+  cloud_run {
+    service = data.google_cloud_run_service.app.name
   }
 }
