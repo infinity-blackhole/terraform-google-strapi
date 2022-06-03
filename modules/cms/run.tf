@@ -1,6 +1,6 @@
-resource "google_cloud_run_service" "strapi" {
+resource "google_cloud_run_service" "default" {
   project                    = var.project
-  name                       = var.name
+  name                       = "${var.name}-cms"
   location                   = var.region
   autogenerate_revision_name = true
   metadata {
@@ -17,9 +17,9 @@ resource "google_cloud_run_service" "strapi" {
         "client.knative.dev/user-image"           = var.image
         "run.googleapis.com/client-name"          = var.client_name
         "run.googleapis.com/client-version"       = var.client_version
-        "run.googleapis.com/vpc-access-connector" = google_vpc_access_connector.strapi.name
+        "run.googleapis.com/vpc-access-connector" = google_vpc_access_connector.default.name
         "run.googleapis.com/vpc-access-egress"    = "private-ranges-only"
-        "run.googleapis.com/cloudsql-instances"   = google_sql_database_instance.strapi.connection_name
+        "run.googleapis.com/cloudsql-instances"   = google_sql_database_instance.default.connection_name
         "autoscaling.knative.dev/maxScale"        = var.max_instances
       }
     }
@@ -31,23 +31,23 @@ resource "google_cloud_run_service" "strapi" {
         }
         env {
           name  = "DATABASE_NAME"
-          value = google_sql_database.strapi.name
+          value = google_sql_database.default.name
         }
         env {
           name  = "DATABASE_USERNAME"
-          value = google_sql_user.strapi.name
+          value = google_sql_user.default.name
         }
         env {
           name  = "DATABASE_PASSWORD"
-          value = google_sql_user.strapi.password
+          value = google_sql_user.default.password
         }
         env {
           name  = "DATABASE_HOST"
-          value = "/cloudsql/${google_sql_database_instance.strapi.connection_name}"
+          value = "/cloudsql/${google_sql_database_instance.default.connection_name}"
         }
         env {
           name  = "UPLOAD_GCS_BUCKET_NAME"
-          value = google_storage_bucket.strapi_upload.name
+          value = google_storage_bucket.default_upload.name
         }
         resources {
           limits = {
@@ -56,7 +56,7 @@ resource "google_cloud_run_service" "strapi" {
           }
         }
       }
-      service_account_name = google_service_account.strapi.email
+      service_account_name = var.service_account
     }
   }
   lifecycle {
@@ -73,33 +73,24 @@ resource "google_cloud_run_service" "strapi" {
       template[0].spec[0].containers[0].image
     ]
   }
-  depends_on = [
-    google_project_service.run
-  ]
 }
 
-resource "google_cloud_run_service_iam_member" "strapi_all_user_run_invoker" {
+resource "google_cloud_run_service_iam_member" "default_all_user_run_invoker" {
   project  = var.project
-  service  = google_cloud_run_service.strapi.name
-  location = google_cloud_run_service.strapi.location
+  service  = google_cloud_run_service.default.name
+  location = google_cloud_run_service.default.location
   role     = "roles/run.invoker"
   member   = "allUsers"
 }
 
-resource "google_project_iam_member" "strapi_strapi_cloudsql_instance_user" {
+resource "google_project_iam_member" "default_strapi_cloudsql_instance_user" {
   project = var.project
   role    = "roles/cloudsql.instanceUser"
-  member  = "serviceAccount:${google_service_account.strapi.email}"
-  depends_on = [
-    google_project_service.sql_admin
-  ]
+  member  = "serviceAccount:${var.service_account}"
 }
 
-resource "google_project_iam_member" "strapi_strapi_cloudsql_client" {
+resource "google_project_iam_member" "default_strapi_cloudsql_client" {
   project = var.project
   role    = "roles/cloudsql.client"
-  member  = "serviceAccount:${google_service_account.strapi.email}"
-  depends_on = [
-    google_project_service.sql_admin
-  ]
+  member  = "serviceAccount:${var.service_account}"
 }

@@ -1,8 +1,8 @@
-data "google_project" "strapi" {
+data "google_project" "default" {
   project_id = var.project
 }
 
-resource "google_iap_client" "strapi" {
+resource "google_iap_client" "default" {
   display_name = title(var.name)
-  brand        = "projects/${data.google_project.strapi.number}/brands/${var.brand}"
+  brand        = "projects/${data.google_project.default.number}/brands/${var.brand}"
 }

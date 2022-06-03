@@ -95,3 +95,8 @@ variable "database_backup_retention_days" {
   description = "The number of days to retain the backup"
   default     = 180
 }
+
+variable "service_account" {
+  type        = string
+  description = "The service account to use"
+}

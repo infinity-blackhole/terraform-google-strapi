@@ -1,4 +1,4 @@
-resource "google_cloud_run_service" "strapi_app" {
+resource "google_cloud_run_service" "default" {
   project                    = var.project
   name                       = "${var.name}-app"
   location                   = var.region
@@ -33,7 +33,7 @@ resource "google_cloud_run_service" "strapi_app" {
           }
         }
       }
-      service_account_name = google_service_account.strapi_app.email
+      service_account_name = var.service_account
     }
   }
   lifecycle {

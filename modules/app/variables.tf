@@ -49,3 +49,8 @@ variable "client_version" {
   description = "The version of the client"
   default     = "381.0.0"
 }
+
+variable "service_account" {
+  type        = string
+  description = "The service account to use"
+}

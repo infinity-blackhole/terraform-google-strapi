@@ -1,11 +1,8 @@
-resource "google_artifact_registry_repository" "strapi_container_registry" {
+resource "google_artifact_registry_repository" "default_container_registry" {
   provider      = google-beta
   project       = var.project
   location      = var.region
   repository_id = "${var.name}-container-registry"
   description   = "${title(var.name)} container registry"
   format        = "DOCKER"
-  depends_on = [
-    google_project_service.artifact_registry
-  ]
 }

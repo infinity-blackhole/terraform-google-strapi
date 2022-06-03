@@ -1,68 +1,68 @@
-resource "google_compute_global_address" "strapi_ipv4" {
+resource "google_compute_global_address" "default_ipv4" {
   project    = var.project
   name       = "${var.name}-ipv4"
   ip_version = "IPV4"
 }
 
-resource "google_compute_global_forwarding_rule" "strapi_ipv4_http" {
+resource "google_compute_global_forwarding_rule" "default_ipv4_http" {
   project    = var.project
   name       = "${var.name}-ipv4-http"
-  target     = google_compute_target_http_proxy.strapi_http.self_link
-  ip_address = google_compute_global_address.strapi_ipv4.address
+  target     = google_compute_target_http_proxy.default_http.self_link
+  ip_address = google_compute_global_address.default_ipv4.address
   port_range = "80"
 }
 
-resource "google_compute_global_forwarding_rule" "strapi_ipv4_https" {
+resource "google_compute_global_forwarding_rule" "default_ipv4_https" {
   project    = var.project
   name       = "${var.name}-ipv4-https"
-  target     = google_compute_target_https_proxy.strapi_https.self_link
-  ip_address = google_compute_global_address.strapi_ipv4.address
+  target     = google_compute_target_https_proxy.default_https.self_link
+  ip_address = google_compute_global_address.default_ipv4.address
   port_range = "443"
 }
 
-resource "google_compute_global_address" "strapi_ipv6" {
+resource "google_compute_global_address" "default_ipv6" {
   project    = var.project
   name       = "${var.name}-ipv6"
   ip_version = "IPV6"
 }
 
-resource "google_compute_global_forwarding_rule" "strapi_ipv6_http" {
+resource "google_compute_global_forwarding_rule" "default_ipv6_http" {
   project    = var.project
   name       = "${var.name}-ipv6-http"
-  target     = google_compute_target_http_proxy.strapi_http.self_link
-  ip_address = google_compute_global_address.strapi_ipv6.address
+  target     = google_compute_target_http_proxy.default_http.self_link
+  ip_address = google_compute_global_address.default_ipv6.address
   port_range = "80"
 }
 
-resource "google_compute_global_forwarding_rule" "strapi_ipv6_https" {
+resource "google_compute_global_forwarding_rule" "default_ipv6_https" {
   project    = var.project
   name       = "${var.name}-ipv6-https"
-  target     = google_compute_target_https_proxy.strapi_https.self_link
-  ip_address = google_compute_global_address.strapi_ipv6.address
+  target     = google_compute_target_https_proxy.default_https.self_link
+  ip_address = google_compute_global_address.default_ipv6.address
   port_range = "443"
 }
 
-resource "google_compute_target_http_proxy" "strapi_http" {
+resource "google_compute_target_http_proxy" "default_http" {
   project = var.project
   name    = "${var.name}-http"
-  url_map = google_compute_url_map.strapi.name
+  url_map = google_compute_url_map.default.name
 }
 
-resource "google_compute_target_https_proxy" "strapi_https" {
+resource "google_compute_target_https_proxy" "default_https" {
   project          = var.project
   name             = "${var.name}-https"
-  ssl_certificates = [google_compute_managed_ssl_certificate.strapi.id]
-  url_map          = google_compute_url_map.strapi.name
+  ssl_certificates = [google_compute_managed_ssl_certificate.default.id]
+  url_map          = google_compute_url_map.default.name
 }
 
-resource "random_id" "strapi_ssl_certificate" {
+resource "random_id" "default_ssl_certificate" {
   byte_length = 4
   prefix      = "${var.name}-"
 }
 
-resource "google_compute_managed_ssl_certificate" "strapi" {
+resource "google_compute_managed_ssl_certificate" "default" {
   project = var.project
-  name    = random_id.strapi_ssl_certificate.hex
+  name    = random_id.default_ssl_certificate.hex
   managed {
     domains = var.domains
   }
@@ -71,7 +71,7 @@ resource "google_compute_managed_ssl_certificate" "strapi" {
   }
 }
 
-resource "google_compute_url_map" "strapi" {
+resource "google_compute_url_map" "default" {
   project         = var.project
   name            = var.name
   default_service = google_compute_backend_service.app.id
@@ -83,51 +83,51 @@ resource "google_compute_url_map" "strapi" {
     default_service = google_compute_backend_service.app.id
     name            = "strapi"
     path_rule {
-      paths   = ["/dashboard"]
-      service = google_compute_backend_service.strapi.id
+      paths   = ["/dashboard", "/dashboard/*"]
+      service = google_compute_backend_service.cms.id
     }
   }
 }
 
-resource "google_compute_backend_service" "strapi" {
+resource "google_compute_backend_service" "cms" {
   project     = var.project
   name        = var.name
   description = title(var.name)
   backend {
-    group = google_compute_region_network_endpoint_group.strapi.id
+    group = google_compute_region_network_endpoint_group.cms.id
   }
   iap {
-    oauth2_client_id     = google_iap_client.strapi.client_id
-    oauth2_client_secret = google_iap_client.strapi.secret
+    oauth2_client_id     = google_iap_client.default.client_id
+    oauth2_client_secret = google_iap_client.default.secret
   }
 }
 
-data "google_cloud_run_service" "strapi" {
+data "google_cloud_run_service" "cms" {
   project  = var.project
   location = var.region
-  name     = var.name
+  name     = "${var.name}-cms"
 }
 
-resource "google_compute_region_network_endpoint_group" "strapi" {
+resource "google_compute_region_network_endpoint_group" "cms" {
   project               = var.project
   name                  = var.name
   network_endpoint_type = "SERVERLESS"
   region                = var.region
   cloud_run {
-    service = data.google_cloud_run_service.strapi.name
+    service = data.google_cloud_run_service.cms.name
   }
 }
 
 resource "google_compute_backend_service" "app" {
   project     = var.project
   name        = "${var.name}-app"
-  description = title(var.name)
+  description = "${title(var.name)} App"
   backend {
     group = google_compute_region_network_endpoint_group.app.id
   }
   iap {
-    oauth2_client_id     = google_iap_client.strapi.client_id
-    oauth2_client_secret = google_iap_client.strapi.secret
+    oauth2_client_id     = google_iap_client.default.client_id
+    oauth2_client_secret = google_iap_client.default.secret
   }
 }
 
