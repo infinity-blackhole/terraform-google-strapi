@@ -11,3 +11,12 @@ module "strapi" {
   region       = "europe-west1"
   zone         = "europe-west1-b"
 }
+
+module "edge" {
+  source  = "../../modules/edge"
+  project = "par-unicorn-dev"
+  region  = "europe-west1"
+  domains = [
+    "unicorn.sfeir.shikanime.studio"
+  ]
+}
