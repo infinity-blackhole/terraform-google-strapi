@@ -19,7 +19,7 @@ resource "google_cloud_run_service" "default" {
         "run.googleapis.com/client-version"       = var.client_version
         "run.googleapis.com/vpc-access-connector" = google_vpc_access_connector.default.name
         "run.googleapis.com/vpc-access-egress"    = "private-ranges-only"
-        "run.googleapis.com/cloudsql-instances"   = google_sql_database_instance.default.connection_name
+        "run.googleapis.com/cloudsql-instances"   = var.database_connection_name
         "autoscaling.knative.dev/maxScale"        = var.max_instances
       }
     }
@@ -48,7 +48,7 @@ resource "google_cloud_run_service" "default" {
         }
         env {
           name  = "DATABASE_HOST"
-          value = "/cloudsql/${google_sql_database_instance.default.connection_name}"
+          value = "/cloudsql/${var.database_connection_name}"
         }
         env {
           name  = "UPLOAD_GCS_BUCKET_NAME"
@@ -75,7 +75,9 @@ resource "google_cloud_run_service" "default" {
       template[0].metadata[0].annotations["client.knative.dev/user-image"],
       template[0].metadata[0].annotations["run.googleapis.com/client-name"],
       template[0].metadata[0].annotations["run.googleapis.com/client-version"],
-      template[0].spec[0].containers[0].image
+      template[0].spec[0].containers[0].image,
+      template[0].spec[0].containers[0].resources[0].limits.cpu,
+      template[0].spec[0].containers[0].resources[0].limits.memory,
     ]
   }
 }

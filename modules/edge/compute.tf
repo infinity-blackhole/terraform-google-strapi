@@ -85,6 +85,11 @@ resource "google_compute_url_map" "default" {
     path_rule {
       paths   = ["/dashboard", "/dashboard/*"]
       service = google_compute_backend_service.cms.id
+      route_action {
+        url_rewrite {
+          path_prefix_rewrite = "/"
+        }
+      }
     }
   }
 }
@@ -114,7 +119,7 @@ resource "google_compute_region_network_endpoint_group" "cms" {
   network_endpoint_type = "SERVERLESS"
   region                = var.region
   cloud_run {
-    service = data.google_cloud_run_service.cms.name
+    service = var.cms_service
   }
 }
 
@@ -143,6 +148,6 @@ resource "google_compute_region_network_endpoint_group" "app" {
   network_endpoint_type = "SERVERLESS"
   region                = var.region
   cloud_run {
-    service = data.google_cloud_run_service.app.name
+    service = var.app_service
   }
 }
