@@ -38,8 +38,13 @@ resource "google_cloud_run_service" "default" {
           value = google_sql_user.default.name
         }
         env {
-          name  = "DATABASE_PASSWORD"
-          value = google_sql_user.default.password
+          name = "DATABASE_PASSWORD"
+          value_from {
+            secret_key_ref {
+              name = google_secret_manager_secret.default_cloudsql_password.secret_id
+              key  = "latest"
+            }
+          }
         }
         env {
           name  = "DATABASE_HOST"
@@ -92,5 +97,11 @@ resource "google_project_iam_member" "default_strapi_cloudsql_instance_user" {
 resource "google_project_iam_member" "default_strapi_cloudsql_client" {
   project = var.project
   role    = "roles/cloudsql.client"
+  member  = "serviceAccount:${var.service_account}"
+}
+
+resource "google_project_iam_member" "default_strapi_secret_accessor" {
+  project = var.project
+  role    = "roles/secretmanager.secretAccessor"
   member  = "serviceAccount:${var.service_account}"
 }
