@@ -60,7 +60,7 @@ resource "random_password" "default_cloudsql" {
 
 resource "google_sql_user" "default" {
   project  = var.project
-  name     = var.service_account
+  name     = trimsuffix(var.service_account, ".gserviceaccount.com")
   instance = google_sql_database_instance.default.name
   password = random_password.default_cloudsql.result
 }
