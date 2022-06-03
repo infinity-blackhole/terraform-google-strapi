@@ -71,10 +71,15 @@ resource "google_compute_url_map" "strapi" {
 }
 
 resource "google_compute_backend_service" "strapi" {
-  project = var.project
-  name    = var.name
+  project     = var.project
+  name        = var.name
+  description = title(var.name)
   backend {
     group = google_compute_region_network_endpoint_group.strapi.id
+  }
+  iap {
+    oauth2_client_id     = google_iap_client.strapi.client_id
+    oauth2_client_secret = google_iap_client.strapi.secret
   }
 }
 

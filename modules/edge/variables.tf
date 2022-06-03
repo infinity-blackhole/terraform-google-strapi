@@ -14,6 +14,11 @@ variable "name" {
   default     = "strapi"
 }
 
+variable "brand" {
+  type        = string
+  description = "The brand of the service"
+}
+
 variable "domains" {
   type        = list(string)
   description = "The domains to serve"

@@ -16,7 +16,14 @@ module "edge" {
   source  = "../../modules/edge"
   project = "par-unicorn-dev"
   region  = "europe-west1"
+  brand   = "202922177550"
   domains = [
     "unicorn.sfeir.shikanime.studio"
   ]
+}
+
+resource "google_project_iam_member" "strapi_domain_sfeir_https_resource_accessor" {
+  project = "par-unicorn-dev"
+  role    = "roles/iap.httpsResourceAccessor"
+  member  = "domain:sfeir.com"
 }
