@@ -18,7 +18,7 @@ module "edge" {
   region  = "europe-west1"
   brand   = "202922177550"
   domains = [
-    "unicorn.sfeir.shikanime.studio"
+    "unicorn.dev.sfeirfactory.com"
   ]
 }
 

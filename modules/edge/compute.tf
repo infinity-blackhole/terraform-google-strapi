@@ -55,12 +55,19 @@ resource "google_compute_target_https_proxy" "strapi_https" {
   url_map          = google_compute_url_map.strapi.name
 }
 
+resource "random_id" "strapi_ssl_certificate" {
+  byte_length = 4
+  prefix      = "${var.name}-"
+}
+
 resource "google_compute_managed_ssl_certificate" "strapi" {
   project = var.project
-  name    = var.name
-
+  name    = random_id.strapi_ssl_certificate.hex
   managed {
     domains = var.domains
+  }
+  lifecycle {
+    create_before_destroy = true
   }
 }
 
