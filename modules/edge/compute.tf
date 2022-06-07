@@ -85,11 +85,6 @@ resource "google_compute_url_map" "default" {
     path_rule {
       paths   = ["/dashboard", "/dashboard/*"]
       service = google_compute_backend_service.cms.id
-      route_action {
-        url_rewrite {
-          path_prefix_rewrite = "/"
-        }
-      }
     }
   }
 }
