@@ -74,13 +74,13 @@ resource "google_compute_managed_ssl_certificate" "default" {
 resource "google_compute_url_map" "default" {
   project         = var.project
   name            = var.name
-  default_service = google_compute_backend_service.app.id
+  default_service = google_compute_backend_service.front.id
   host_rule {
     hosts        = var.domains
     path_matcher = "strapi"
   }
   path_matcher {
-    default_service = google_compute_backend_service.app.id
+    default_service = google_compute_backend_service.front.id
     name            = "strapi"
     path_rule {
       paths   = ["/dashboard", "/dashboard/*"]
@@ -96,7 +96,7 @@ resource "google_compute_url_map" "default" {
 
 resource "google_compute_backend_service" "cms" {
   project     = var.project
-  name        = var.name
+  name        = "${var.name}-cms"
   description = title(var.name)
   backend {
     group = google_compute_region_network_endpoint_group.cms.id
@@ -115,7 +115,7 @@ data "google_cloud_run_service" "cms" {
 
 resource "google_compute_region_network_endpoint_group" "cms" {
   project               = var.project
-  name                  = var.name
+  name                  = "${var.name}-cms"
   network_endpoint_type = "SERVERLESS"
   region                = var.region
   cloud_run {
@@ -123,12 +123,12 @@ resource "google_compute_region_network_endpoint_group" "cms" {
   }
 }
 
-resource "google_compute_backend_service" "app" {
+resource "google_compute_backend_service" "front" {
   project     = var.project
-  name        = "${var.name}-app"
+  name        = "${var.name}-front"
   description = "${title(var.name)} App"
   backend {
-    group = google_compute_region_network_endpoint_group.app.id
+    group = google_compute_region_network_endpoint_group.front.id
   }
   iap {
     oauth2_client_id     = google_iap_client.default.client_id
@@ -136,15 +136,15 @@ resource "google_compute_backend_service" "app" {
   }
 }
 
-data "google_cloud_run_service" "app" {
+data "google_cloud_run_service" "front" {
   project  = var.project
   location = var.region
-  name     = "${var.name}-app"
+  name     = "${var.name}-front"
 }
 
-resource "google_compute_region_network_endpoint_group" "app" {
+resource "google_compute_region_network_endpoint_group" "front" {
   project               = var.project
-  name                  = "${var.name}-app"
+  name                  = "${var.name}-front"
   network_endpoint_type = "SERVERLESS"
   region                = var.region
   cloud_run {

@@ -3,5 +3,5 @@ output "cms_service_account" {
 }
 
 output "app_service_account" {
-  value = google_service_account.app
+  value = google_service_account.front
 }
