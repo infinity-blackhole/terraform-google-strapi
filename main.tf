@@ -19,12 +19,12 @@ module "cms" {
   ]
 }
 
-module "app" {
-  source          = "./modules/app"
+module "front" {
+  source          = "./modules/front"
   project         = var.project
   name            = var.name
   region          = var.region
-  service_account = google_service_account.app.email
+  service_account = google_service_account.front.email
   depends_on = [
     google_project_service.artifact_registry,
     google_project_service.run
@@ -38,7 +38,7 @@ module "edge" {
   region      = var.region
   brand       = var.brand
   domains     = var.domains
-  app_service = module.app.service.name
+  app_service = module.front.service.name
   cms_service = module.cms.service.name
   depends_on = [
     google_project_service.iap,

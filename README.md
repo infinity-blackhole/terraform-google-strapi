@@ -17,7 +17,7 @@ allowed.
 Currently module architecture:
 
 - **cms**: Deploys a Strapi CMS.
-- **app**: Deploys a consumer-facing application.
+- **front**: Deploys a consumer-facing application.
 - **edge**: Deploys a Strapi CMS with a public facing edge.
 
 ## Examples

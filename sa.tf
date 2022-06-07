@@ -4,8 +4,8 @@ resource "google_service_account" "cms" {
   display_name = "${title(var.name)} CMS Service Account"
 }
 
-resource "google_service_account" "app" {
+resource "google_service_account" "front" {
   project      = var.project
-  account_id   = "${var.name}-app"
+  account_id   = "${var.name}-front"
   display_name = "${title(var.name)} App Service Account"
 }
