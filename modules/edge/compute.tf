@@ -83,7 +83,7 @@ resource "google_compute_url_map" "default" {
     default_service = google_compute_backend_service.front.id
     name            = "strapi"
     path_rule {
-      paths   = ["/dashboard", "/dashboard/*"]
+      paths   = ["/strapi", "/strapi/*"]
       service = google_compute_backend_service.cms.id
     }
   }
