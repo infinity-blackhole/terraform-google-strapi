@@ -38,15 +38,8 @@ resource "google_cloud_run_service" "default" {
   }
   lifecycle {
     ignore_changes = [
-      metadata[0].annotations["client.knative.dev/user-image"],
-      metadata[0].annotations["run.googleapis.com/client-name"],
-      metadata[0].annotations["run.googleapis.com/client-version"],
-      metadata[0].annotations["run.googleapis.com/ingress-status"],
-      metadata[0].annotations["serving.knative.dev/creator"],
-      metadata[0].annotations["serving.knative.dev/lastModifier"],
-      template[0].metadata[0].annotations["client.knative.dev/user-image"],
-      template[0].metadata[0].annotations["run.googleapis.com/client-name"],
-      template[0].metadata[0].annotations["run.googleapis.com/client-version"],
+      metadata[0].annotations,
+      template[0].metadata[0].annotations,
       template[0].spec[0].containers[0].image,
       template[0].spec[0].containers[0].env,
       template[0].spec[0].containers[0].resources[0].limits.cpu,

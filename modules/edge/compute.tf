@@ -58,13 +58,17 @@ resource "google_compute_target_https_proxy" "default_https" {
 resource "random_id" "default_ssl_certificate" {
   byte_length = 4
   prefix      = "${var.name}-"
+  keepers = {
+    project = var.project
+    domains = jsonencode(var.domains)
+  }
 }
 
 resource "google_compute_managed_ssl_certificate" "default" {
   project = var.project
   name    = random_id.default_ssl_certificate.hex
   managed {
-    domains = var.domains
+    domains = toset(flatten(values(var.domains)))
   }
   lifecycle {
     create_before_destroy = true
@@ -76,16 +80,12 @@ resource "google_compute_url_map" "default" {
   name            = var.name
   default_service = google_compute_backend_service.front.id
   host_rule {
-    hosts        = var.domains
-    path_matcher = "strapi"
+    hosts        = var.domains["cms"]
+    path_matcher = "cms"
   }
   path_matcher {
-    default_service = google_compute_backend_service.front.id
-    name            = "strapi"
-    path_rule {
-      paths   = ["/strapi", "/strapi/*"]
-      service = google_compute_backend_service.cms.id
-    }
+    default_service = google_compute_backend_service.cms.id
+    name            = "cms"
   }
 }
 

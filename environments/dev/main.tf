@@ -11,9 +11,16 @@ module "default" {
   region       = "europe-west1"
   zone         = "europe-west1-b"
   brand        = "202922177550"
-  domains = [
-    "unicorn.dev.sfeirfactory.com"
-  ]
+  domains = {
+    front = [
+      "unicorn.sfeir.shikanime.studio",
+      "unicorn.dev.sfeirfactory.com"
+    ]
+    cms = [
+      "cms.unicorn.sfeir.shikanime.studio",
+      "unicorn.dev.cms.sfeirfactory.com"
+    ]
+  }
 }
 
 resource "google_project_iam_member" "default_domain_sfeir_https_resource_accessor" {
