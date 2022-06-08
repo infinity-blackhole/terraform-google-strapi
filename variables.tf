@@ -19,7 +19,7 @@ variable "zone" {
 }
 
 variable "domains" {
-  type        = list(string)
+  type        = map(list(string))
   description = "The domains to serve"
 }
 
