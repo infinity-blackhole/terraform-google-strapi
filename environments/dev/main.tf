@@ -52,7 +52,7 @@ module "edge" {
   }
 }
 
-resource "google_project_iam_member" "default_domain_sfeir_https_resource_accessor" {
+resource "google_project_iam_member" "sfeir_https_resource_accessor" {
   project = var.project
   role    = "roles/iap.httpsResourceAccessor"
   member  = "domain:sfeir.com"
