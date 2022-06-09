@@ -51,9 +51,3 @@ module "edge" {
     cms   = module.cms.service.name
   }
 }
-
-resource "google_project_iam_member" "sfeir_https_resource_accessor" {
-  project = var.project
-  role    = "roles/iap.httpsResourceAccessor"
-  member  = "domain:sfeir.com"
-}
