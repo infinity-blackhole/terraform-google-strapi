@@ -13,11 +13,6 @@ variable "name" {
   description = "The full name of the service"
 }
 
-variable "brand" {
-  type        = string
-  description = "The brand of the service"
-}
-
 variable "domains" {
   type        = map(list(string))
   description = "The domains to serve"

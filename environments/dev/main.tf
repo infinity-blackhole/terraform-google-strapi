@@ -45,7 +45,6 @@ module "edge" {
   project = var.project
   name    = var.name
   region  = var.region
-  brand   = var.brand
   domains = var.domains
   services = {
     front = module.front.service.name

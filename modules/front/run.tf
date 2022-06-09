@@ -47,3 +47,11 @@ resource "google_cloud_run_service" "default" {
     ]
   }
 }
+
+resource "google_cloud_run_service_iam_member" "default_all_user_run_invoker" {
+  project  = var.project
+  service  = google_cloud_run_service.default.name
+  location = google_cloud_run_service.default.location
+  role     = "roles/run.invoker"
+  member   = "allUsers"
+}

@@ -96,10 +96,6 @@ resource "google_compute_backend_service" "cms" {
   backend {
     group = google_compute_region_network_endpoint_group.cms.id
   }
-  iap {
-    oauth2_client_id     = google_iap_client.default.client_id
-    oauth2_client_secret = google_iap_client.default.secret
-  }
 }
 
 resource "google_compute_region_network_endpoint_group" "cms" {
@@ -118,10 +114,6 @@ resource "google_compute_backend_service" "front" {
   description = "${title(var.name)} App"
   backend {
     group = google_compute_region_network_endpoint_group.front.id
-  }
-  iap {
-    oauth2_client_id     = google_iap_client.default.client_id
-    oauth2_client_secret = google_iap_client.default.secret
   }
 }
 

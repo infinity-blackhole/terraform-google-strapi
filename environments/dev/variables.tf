@@ -28,12 +28,6 @@ variable "zone" {
   default     = "europe-west1-b"
 }
 
-variable "brand" {
-  type        = string
-  description = "The brand of the service"
-  default     = "202922177550"
-}
-
 variable "domains" {
   type        = map(list(string))
   description = "The domains to serve"
