@@ -83,21 +83,3 @@ resource "google_cloud_run_service_iam_member" "default_all_user_run_invoker" {
   role     = "roles/run.invoker"
   member   = "allUsers"
 }
-
-resource "google_project_iam_member" "default_strapi_cloudsql_instance_user" {
-  project = var.project
-  role    = "roles/cloudsql.instanceUser"
-  member  = "serviceAccount:${var.service_account}"
-}
-
-resource "google_project_iam_member" "default_strapi_cloudsql_client" {
-  project = var.project
-  role    = "roles/cloudsql.client"
-  member  = "serviceAccount:${var.service_account}"
-}
-
-resource "google_project_iam_member" "default_strapi_secret_accessor" {
-  project = var.project
-  role    = "roles/secretmanager.secretAccessor"
-  member  = "serviceAccount:${var.service_account}"
-}
