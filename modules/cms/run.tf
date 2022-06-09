@@ -51,7 +51,7 @@ resource "google_cloud_run_service" "default" {
           value = "/cloudsql/${var.database_connection_name}"
         }
         env {
-          name  = "UPLOAD_GCS_BUCKET_NAME"
+          name  = "UPLOAD_STORAGE_NAME"
           value = google_storage_bucket.default_upload.name
         }
         resources {
