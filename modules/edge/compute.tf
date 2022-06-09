@@ -108,7 +108,7 @@ resource "google_compute_region_network_endpoint_group" "cms" {
   network_endpoint_type = "SERVERLESS"
   region                = var.region
   cloud_run {
-    service = var.cms_service
+    service = var.services.cms
   }
 }
 
@@ -131,6 +131,6 @@ resource "google_compute_region_network_endpoint_group" "front" {
   network_endpoint_type = "SERVERLESS"
   region                = var.region
   cloud_run {
-    service = var.app_service
+    service = var.services.front
   }
 }

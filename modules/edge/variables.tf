@@ -23,12 +23,7 @@ variable "domains" {
   description = "The domains to serve"
 }
 
-variable "app_service" {
-  type        = string
-  description = "The Cloud Run App service"
-}
-
-variable "cms_service" {
-  type        = string
-  description = "The Cloud Run CMS service ID"
+variable "services" {
+  type        = map(string)
+  description = "The services to expose"
 }

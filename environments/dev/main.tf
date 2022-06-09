@@ -41,14 +41,16 @@ module "front" {
 }
 
 module "edge" {
-  source      = "../../modules/edge"
-  project     = var.project
-  name        = var.name
-  region      = var.region
-  brand       = var.brand
-  domains     = var.domains
-  app_service = module.front.service.name
-  cms_service = module.cms.service.name
+  source  = "../../modules/edge"
+  project = var.project
+  name    = var.name
+  region  = var.region
+  brand   = var.brand
+  domains = var.domains
+  services = {
+    front = module.front.service.name
+    cms   = module.cms.service.name
+  }
 }
 
 resource "google_project_iam_member" "default_domain_sfeir_https_resource_accessor" {
