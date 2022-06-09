@@ -1,6 +1,6 @@
 resource "google_secret_manager_secret" "default_cloudsql_password" {
   project   = var.project
-  secret_id = "${var.name}-cms-cloudsql-password"
+  secret_id = "${var.name}-cloudsql-password"
   replication {
     user_managed {
       replicas {

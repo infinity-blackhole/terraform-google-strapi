@@ -91,7 +91,7 @@ resource "google_compute_url_map" "default" {
 
 resource "google_compute_backend_service" "cms" {
   project     = var.project
-  name        = "${var.name}-cms"
+  name        = var.services.cms
   description = title(var.name)
   backend {
     group = google_compute_region_network_endpoint_group.cms.id
@@ -100,7 +100,7 @@ resource "google_compute_backend_service" "cms" {
 
 resource "google_compute_region_network_endpoint_group" "cms" {
   project               = var.project
-  name                  = "${var.name}-cms"
+  name                  = var.services.cms
   network_endpoint_type = "SERVERLESS"
   region                = var.region
   cloud_run {
@@ -110,7 +110,7 @@ resource "google_compute_region_network_endpoint_group" "cms" {
 
 resource "google_compute_backend_service" "front" {
   project     = var.project
-  name        = "${var.name}-front"
+  name        = var.services.front
   description = "${title(var.name)} App"
   backend {
     group = google_compute_region_network_endpoint_group.front.id
@@ -119,7 +119,7 @@ resource "google_compute_backend_service" "front" {
 
 resource "google_compute_region_network_endpoint_group" "front" {
   project               = var.project
-  name                  = "${var.name}-front"
+  name                  = var.services.front
   network_endpoint_type = "SERVERLESS"
   region                = var.region
   cloud_run {

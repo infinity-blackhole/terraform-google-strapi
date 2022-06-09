@@ -1,6 +1,6 @@
 resource "google_sql_database" "default" {
   project  = var.project
-  name     = "${var.name}-cms"
+  name     = var.name
   instance = var.database_instance
 }
 

@@ -11,7 +11,7 @@ variable "region" {
 variable "name" {
   type        = string
   description = "The full name of the service"
-  default     = "strapi"
+  default     = "strapi-front"
 }
 
 variable "image" {

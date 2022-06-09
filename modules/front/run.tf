@@ -1,6 +1,6 @@
 resource "google_cloud_run_service" "default" {
   project                    = var.project
-  name                       = "${var.name}-front"
+  name                       = var.name
   location                   = var.region
   autogenerate_revision_name = true
   metadata {
