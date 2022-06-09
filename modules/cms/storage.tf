@@ -1,7 +1,7 @@
 resource "google_storage_bucket" "default_upload" {
   project       = var.project
   name          = "${var.project}-${var.name}-cms-upload"
-  location      = "EU"
+  location      = var.multi_region
   force_destroy = true
 }
 

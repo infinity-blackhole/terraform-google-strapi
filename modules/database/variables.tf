@@ -3,11 +3,6 @@ variable "project" {
   description = "The Google Cloud project ID"
 }
 
-variable "multi_region" {
-  type        = string
-  description = "The Google Cloud multi region"
-}
-
 variable "region" {
   type        = string
   description = "The Google Cloud region"
@@ -18,20 +13,15 @@ variable "zone" {
   description = "The Google Cloud zone"
 }
 
-variable "domains" {
-  type        = map(list(string))
-  description = "The domains to serve"
-}
-
 variable "name" {
   type        = string
   description = "The full name of the service"
   default     = "strapi"
 }
 
-variable "brand" {
+variable "network" {
   type        = string
-  description = "The brand of the service"
+  description = "The name of the network"
 }
 
 variable "database_tier" {

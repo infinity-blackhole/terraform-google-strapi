@@ -13,11 +13,6 @@ variable "region" {
   description = "The Google Cloud region"
 }
 
-variable "zone" {
-  type        = string
-  description = "The Google Cloud zone"
-}
-
 variable "name" {
   type        = string
   description = "The full name of the service"

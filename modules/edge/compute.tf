@@ -102,12 +102,6 @@ resource "google_compute_backend_service" "cms" {
   }
 }
 
-data "google_cloud_run_service" "cms" {
-  project  = var.project
-  location = var.region
-  name     = "${var.name}-cms"
-}
-
 resource "google_compute_region_network_endpoint_group" "cms" {
   project               = var.project
   name                  = "${var.name}-cms"
@@ -129,12 +123,6 @@ resource "google_compute_backend_service" "front" {
     oauth2_client_id     = google_iap_client.default.client_id
     oauth2_client_secret = google_iap_client.default.secret
   }
-}
-
-data "google_cloud_run_service" "front" {
-  project  = var.project
-  location = var.region
-  name     = "${var.name}-front"
 }
 
 resource "google_compute_region_network_endpoint_group" "front" {

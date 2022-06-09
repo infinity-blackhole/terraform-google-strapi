@@ -1,6 +1,18 @@
 resource "random_id" "default_cloudsql" {
   byte_length = 4
   prefix      = "${var.name}-"
+  keepers = {
+    project                        = var.project
+    region                         = var.region
+    database_version               = var.database_version
+    database_tier                  = var.database_tier
+    database_disk_type             = var.database_disk_type
+    database_availability_type     = var.database_availability_type
+    zone                           = var.zone
+    database_backup_start_time     = var.database_backup_start_time
+    region                         = var.region
+    database_backup_retention_days = var.database_backup_retention_days
+  }
 }
 
 resource "google_sql_database_instance" "default" {
@@ -18,7 +30,7 @@ resource "google_sql_database_instance" "default" {
       zone = var.zone
     }
     ip_configuration {
-      private_network = google_compute_network.default.id
+      private_network = var.network
     }
     backup_configuration {
       enabled    = true
@@ -39,8 +51,4 @@ resource "google_sql_database_instance" "default" {
       settings[0].disk_size
     ]
   }
-  depends_on = [
-    google_service_networking_connection.default,
-    google_project_service.sql_admin
-  ]
 }
