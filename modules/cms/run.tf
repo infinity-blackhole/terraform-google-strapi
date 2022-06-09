@@ -52,7 +52,7 @@ resource "google_cloud_run_service" "default" {
         }
         env {
           name  = "UPLOAD_STORAGE_NAME"
-          value = google_storage_bucket.default_upload.name
+          value = google_storage_bucket.upload.name
         }
         resources {
           limits = {
