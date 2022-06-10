@@ -55,3 +55,7 @@ rule "terraform_unused_required_providers" {
 rule "terraform_workspace_remote" {
   enabled = true
 }
+
+rule "terraform_unused_declarations" {
+  enabled = true
+}

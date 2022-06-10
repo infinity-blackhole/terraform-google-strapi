@@ -10,3 +10,8 @@ output "network" {
   value       = google_compute_network.default
   description = "Network"
 }
+
+output "artifact_registry_repository" {
+  value       = google_artifact_registry_repository.default_container_registry
+  description = "Container registry"
+}
