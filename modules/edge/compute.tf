@@ -80,7 +80,7 @@ resource "google_compute_url_map" "default" {
   name            = var.name
   default_service = google_compute_backend_service.front.id
   host_rule {
-    hosts        = var.domains["cms"]
+    hosts        = var.domains.cms
     path_matcher = "cms"
   }
   path_matcher {

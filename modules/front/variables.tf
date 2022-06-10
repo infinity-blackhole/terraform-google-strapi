@@ -54,3 +54,8 @@ variable "service_account" {
   type        = string
   description = "The service account to use"
 }
+
+variable "graphql_url" {
+  type        = string
+  description = "The GraphQL URL"
+}

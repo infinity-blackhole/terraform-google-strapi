@@ -26,7 +26,7 @@ variable "display_name" {
 variable "tag" {
   type        = string
   description = "The tag to use for the release"
-  default     = "^([0-9]+)\\.([0-9]+)\\.([0-9]+)(?:\\+[0-9A-Za-z-]+)?$"
+  default     = "^v([0-9]+)\\.([0-9]+)\\.([0-9]+)(?:\\+[0-9A-Za-z-]+)?$"
 }
 
 variable "filename" {
