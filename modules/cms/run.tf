@@ -54,6 +54,46 @@ resource "google_cloud_run_service" "default" {
           name  = "UPLOAD_STORAGE_NAME"
           value = google_storage_bucket.upload.name
         }
+        env {
+          name = "JWT_SECRET"
+          value_from {
+            secret_key_ref {
+              name = google_secret_manager_secret.jwt_secret.secret_id
+              key  = "latest"
+            }
+          }
+        }
+        env {
+          name = "APP_KEYS"
+          value_from {
+            secret_key_ref {
+              name = google_secret_manager_secret.app_keys.secret_id
+              key  = "latest"
+            }
+          }
+        }
+        env {
+          name = "API_TOKEN_SALT"
+          value_from {
+            secret_key_ref {
+              name = google_secret_manager_secret.api_token_salt.secret_id
+              key  = "latest"
+            }
+          }
+        }
+        env {
+          name = "ADMIN_JWT_SECRET"
+          value_from {
+            secret_key_ref {
+              name = google_secret_manager_secret.admin_jwt_secret.secret_id
+              key  = "latest"
+            }
+          }
+        }
+        env {
+          name  = "HOST"
+          value = "0.0.0.0"
+        }
         resources {
           limits = {
             cpu    = var.cpu

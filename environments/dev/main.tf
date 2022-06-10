@@ -30,7 +30,7 @@ module "delivery" {
   region       = var.region
   repository   = each.value.repository
   display_name = each.value.display_name
-  tag          = "^([0-9]+)\\.([0-9]+)\\.([0-9]+)-(alpha(?:\\.[0-9A-Za-z-]+)*)(?:\\+[0-9A-Za-z-]+)?$"
+  tag          = "^v([0-9]+)\\.([0-9]+)\\.([0-9]+)-(alpha(?:\\.[0-9A-Za-z-]+)*)(?:\\+[0-9A-Za-z-]+)?$"
 }
 
 module "database" {
@@ -60,6 +60,7 @@ module "front" {
   name            = var.services.front.name
   region          = var.region
   service_account = module.project.service_accounts.front.email
+  graphql_url     = var.graphql_url
 }
 
 module "edge" {

@@ -26,6 +26,10 @@ resource "google_cloud_run_service" "default" {
         ports {
           container_port = 3000
         }
+        env {
+          name  = "API_CARDS"
+          value = var.graphql_url
+        }
         resources {
           limits = {
             cpu    = var.cpu

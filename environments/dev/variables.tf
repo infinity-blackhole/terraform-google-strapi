@@ -28,6 +28,12 @@ variable "zone" {
   default     = "europe-west1-b"
 }
 
+variable "graphql_url" {
+  type        = string
+  description = "The GraphQL URL"
+  default     = "https://unicorn.dev.cms.sfeirfactory.com/graphql"
+}
+
 variable "services" {
   type = map(object({
     name         = string
@@ -39,12 +45,12 @@ variable "services" {
     cms = {
       name         = "strapi-cms"
       display_name = "CMS"
-      repository   = "the-unicorn-front-mirrored"
+      repository   = "the-unicorn-cms-mirrored"
     }
     front = {
       name         = "strapi-front"
       display_name = "Front"
-      repository   = "the-unicorn-cms-mirrored"
+      repository   = "the-unicorn-front-mirrored"
     }
   }
 }

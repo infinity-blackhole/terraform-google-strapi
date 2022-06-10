@@ -27,3 +27,9 @@ resource "google_project_iam_member" "cloudbuild_iam_service_account_user" {
   role    = "roles/iam.serviceAccountUser"
   member  = "serviceAccount:${local.cloud_build_service_agent}"
 }
+
+resource "google_project_iam_member" "cloudbuild_secret_accessor" {
+  project = var.project
+  role    = "roles/secretmanager.secretAccessor"
+  member  = "serviceAccount:${local.cloud_build_service_agent}"
+}
