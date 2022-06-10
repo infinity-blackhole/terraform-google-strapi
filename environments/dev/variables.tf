@@ -28,6 +28,27 @@ variable "zone" {
   default     = "europe-west1-b"
 }
 
+variable "services" {
+  type = map(object({
+    name         = string
+    display_name = string
+    repository   = string
+  }))
+  description = "The services to deploy"
+  default = {
+    cms = {
+      name         = "strapi-cms"
+      display_name = "CMS"
+      repository   = "the-unicorn-front-mirrored"
+    }
+    front = {
+      name         = "strapi-front"
+      display_name = "Front"
+      repository   = "the-unicorn-cms-mirrored"
+    }
+  }
+}
+
 variable "domains" {
   type        = map(list(string))
   description = "The domains to serve"
