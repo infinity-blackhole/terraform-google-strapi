@@ -60,11 +60,9 @@ variable "domains" {
   description = "The domains to serve"
   default = {
     front = [
-      "unicorn.sfeir.shikanime.studio",
       "unicorn.dev.sfeirfactory.com"
     ]
     cms = [
-      "cms.unicorn.sfeir.shikanime.studio",
       "unicorn.dev.cms.sfeirfactory.com"
     ]
   }
