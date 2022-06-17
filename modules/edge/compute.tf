@@ -2,6 +2,9 @@ resource "google_compute_global_address" "default_ipv4" {
   project    = var.project
   name       = "${var.name}-ipv4"
   ip_version = "IPV4"
+  depends_on = [
+    google_project_service.compute
+  ]
 }
 
 resource "google_compute_global_forwarding_rule" "default_ipv4_http" {
@@ -24,6 +27,9 @@ resource "google_compute_global_address" "default_ipv6" {
   project    = var.project
   name       = "${var.name}-ipv6"
   ip_version = "IPV6"
+  depends_on = [
+    google_project_service.compute
+  ]
 }
 
 resource "google_compute_global_forwarding_rule" "default_ipv6_http" {
@@ -73,6 +79,9 @@ resource "google_compute_managed_ssl_certificate" "default" {
   lifecycle {
     create_before_destroy = true
   }
+  depends_on = [
+    google_project_service.compute
+  ]
 }
 
 resource "google_compute_url_map" "default" {
@@ -106,6 +115,9 @@ resource "google_compute_region_network_endpoint_group" "cms" {
   cloud_run {
     service = var.services.cms
   }
+  depends_on = [
+    google_project_service.compute
+  ]
 }
 
 resource "google_compute_backend_service" "front" {
@@ -125,4 +137,7 @@ resource "google_compute_region_network_endpoint_group" "front" {
   cloud_run {
     service = var.services.front
   }
+  depends_on = [
+    google_project_service.compute
+  ]
 }

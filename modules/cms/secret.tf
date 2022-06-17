@@ -13,6 +13,9 @@ resource "google_secret_manager_secret" "default_cloudsql_password" {
 resource "google_secret_manager_secret_version" "default_cloudsql_password_version" {
   secret      = google_secret_manager_secret.default_cloudsql_password.id
   secret_data = google_sql_user.default.password
+  depends_on = [
+    google_project_service.secret_manager
+  ]
 }
 
 resource "google_secret_manager_secret" "admin_jwt_secret" {
@@ -25,6 +28,9 @@ resource "google_secret_manager_secret" "admin_jwt_secret" {
       }
     }
   }
+  depends_on = [
+    google_project_service.secret_manager
+  ]
 }
 
 resource "google_secret_manager_secret" "api_token_salt" {
@@ -37,6 +43,9 @@ resource "google_secret_manager_secret" "api_token_salt" {
       }
     }
   }
+  depends_on = [
+    google_project_service.secret_manager
+  ]
 }
 
 resource "google_secret_manager_secret" "app_keys" {
@@ -49,6 +58,9 @@ resource "google_secret_manager_secret" "app_keys" {
       }
     }
   }
+  depends_on = [
+    google_project_service.secret_manager
+  ]
 }
 
 resource "google_secret_manager_secret" "jwt_secret" {
@@ -61,4 +73,7 @@ resource "google_secret_manager_secret" "jwt_secret" {
       }
     }
   }
+  depends_on = [
+    google_project_service.secret_manager
+  ]
 }

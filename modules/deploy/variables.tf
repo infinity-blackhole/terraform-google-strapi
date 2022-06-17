@@ -34,9 +34,3 @@ variable "artifact_registry_repository" {
   type        = string
   description = "The repository to use for the service"
 }
-
-variable "filename" {
-  type        = string
-  description = "The filename of the Cloud Build template"
-  default     = "deploy.cloudbuild.yaml"
-}

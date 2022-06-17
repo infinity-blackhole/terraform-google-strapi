@@ -114,6 +114,9 @@ resource "google_cloud_run_service" "default" {
       template[0].spec[0].containers[0].resources[0].limits.memory,
     ]
   }
+  depends_on = [
+    google_project_service.run
+  ]
 }
 
 resource "google_cloud_run_service_iam_member" "default_all_user_run_invoker" {
