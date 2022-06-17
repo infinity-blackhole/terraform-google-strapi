@@ -1,5 +1,9 @@
+# Dev tools
+.idea/
+.vscode/
+
 # Direnv
-.direnv
+.direnv/
 
 # Local .terraform directories
 **/.terraform/*

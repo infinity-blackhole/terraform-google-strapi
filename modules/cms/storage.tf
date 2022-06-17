@@ -1,8 +1,9 @@
 resource "google_storage_bucket" "upload" {
-  project       = var.project
-  name          = "${var.project}-${var.name}-upload"
-  location      = var.multi_region
-  force_destroy = true
+  project                     = var.project
+  name                        = "${var.project}-${var.name}-upload"
+  location                    = var.multi_region
+  force_destroy               = true
+  uniform_bucket_level_access = true
 }
 
 resource "google_storage_bucket_iam_member" "upload_storage_admin" {
