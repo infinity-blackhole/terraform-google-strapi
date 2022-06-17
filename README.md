@@ -1,4 +1,4 @@
-# Terraform Google Strapi
+# Terraform Google CMS
 
 This repository provides a suite of Terraform modules for deploying Strapi on
 Google Cloud.
@@ -16,11 +16,65 @@ allowed.
 
 Currently module architecture:
 
-- **database**: Deploys a database.
-- **cms**: Deploys a Strapi CMS.
-- **front**: Deploys a consumer-facing application.
-- **edge**: Deploys a Strapi CMS with a public facing edge.
+- **database**: SQL database.
+- **delivery**: Continuous delivery pipeline.
+- **deploy**: Continuous build and deploy pipeline.
+- **cms**: Strapi CMS service.
+- **front**: Consumer-facing application service.
+- **edge**: Public facing edge network.
+- **project**: Global common resources.
+
+## Contribution
+
+If you are interested in contributing to this repository, the best way to do so
+is to either fork it and then make your own changes or create a new branch.
+To enter the development mode, you can use the [direnv](https://direnv.net/)
+utility which need at least [Nix 2.4](https://nixos.org/nix/download.html).
+
+```shell
+# Allow environment setup scripts
+direnv allow
+
+# Install pre-commit git hook
+pre-commit install
+```
+
+Nix and direnv are the best way to reproduce the development environment, but
+you can also use your own environment management tool or install the
+dependencies yourself:
+
+- [terraform](https://learn.hashicorp.com/tutorials/terraform/install-cli)
+- [tflint](https://github.com/terraform-linters/tflint)
+- [tfsec](https://github.com/aquasecurity/tfsec)
+- [pre-commit](https://pre-commit.com/)
+- [terraform-docs](https://github.com/terraform-docs/terraform-docs)
 
 ## Examples
 
 The `environments` directory contain a complete example of deployment.
+
+<!-- BEGIN_TF_DOCS -->
+## Requirements
+
+No requirements.
+
+## Providers
+
+No providers.
+
+## Modules
+
+No modules.
+
+## Resources
+
+No resources.
+
+## Inputs
+
+No inputs.
+
+## Outputs
+
+No outputs.
+<!-- END_TF_DOCS -->
