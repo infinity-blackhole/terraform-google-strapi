@@ -30,7 +30,9 @@ resource "google_sql_database_instance" "default" {
       zone = var.zone
     }
     ip_configuration {
+      ipv4_enabled    = false
       private_network = var.network
+      require_ssl     = true
     }
     backup_configuration {
       enabled    = true
@@ -44,6 +46,26 @@ resource "google_sql_database_instance" "default" {
     database_flags {
       name  = "cloudsql.iam_authentication"
       value = "on"
+    }
+    database_flags {
+      name  = "log_disconnections"
+      value = "on"
+    }
+    database_flags {
+      name  = "log_connections"
+      value = "on"
+    }
+    database_flags {
+      name  = "log_lock_waits"
+      value = "on"
+    }
+    database_flags {
+      name  = "log_checkpoints"
+      value = "on"
+    }
+    database_flags {
+      name  = "log_temp_files"
+      value = "0"
     }
   }
   lifecycle {

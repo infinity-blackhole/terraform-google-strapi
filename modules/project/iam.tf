@@ -18,13 +18,7 @@ resource "google_project_iam_member" "cms_secret_accessor" {
 
 resource "google_project_iam_member" "cloudbuild_run_developer" {
   project = var.project
-  role    = "roles/run.admin"
-  member  = "serviceAccount:${local.cloud_build_service_agent}"
-}
-
-resource "google_project_iam_member" "cloudbuild_iam_service_account_user" {
-  project = var.project
-  role    = "roles/iam.serviceAccountUser"
+  role    = "roles/run.developer"
   member  = "serviceAccount:${local.cloud_build_service_agent}"
 }
 
