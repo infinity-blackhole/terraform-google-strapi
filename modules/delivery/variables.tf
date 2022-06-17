@@ -29,8 +29,8 @@ variable "tag" {
   default     = "^v([0-9]+)\\.([0-9]+)\\.([0-9]+)(?:\\+[0-9A-Za-z-]+)?$"
 }
 
-variable "filename" {
-  type        = string
-  description = "The filename of the Cloud Build template"
-  default     = "delivery.cloudbuild.yaml"
+variable "percentage" {
+  type        = number
+  description = "The percentage of traffic to use for the release"
+  default     = 100
 }
