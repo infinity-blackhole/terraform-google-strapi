@@ -1,5 +1,5 @@
 resource "google_cloudbuild_trigger" "default" {
-  project     = "${var.project}/locations/${var.region}"
+  project     = var.project
   name        = "${var.name}-delivery"
   description = "Delivery ${var.display_name}"
   trigger_template {
@@ -13,16 +13,18 @@ resource "google_cloudbuild_trigger" "default" {
         "services",
         "update-traffic",
         "--to-revisions",
-        "$_K_SERVICE-$SHORT_SHA=${var.percentage}",
+        "$_K_SERVICE-$SHORT_SHA=$_TRAFFIC_PERCENTAGE",
         "--region",
-        "$LOCATION",
+        "$_K_LOCATION",
         "$_K_SERVICE"
       ]
       name = "gcr.io/cloud-builders/gcloud"
     }
   }
   substitutions = {
-    _K_SERVICE = var.name
+    _K_SERVICE          = var.name
+    _K_LOCATION         = var.region
+    _TRAFFIC_PERCENTAGE = var.percentage
   }
   depends_on = [
     google_project_service.cloudbuild

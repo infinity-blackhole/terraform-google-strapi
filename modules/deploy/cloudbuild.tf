@@ -1,5 +1,5 @@
 resource "google_cloudbuild_trigger" "deploy" {
-  project     = "${var.project}/locations/${var.region}"
+  project     = var.project
   name        = "${var.name}-deploy"
   description = "Deploy ${var.display_name}"
   trigger_template {
@@ -35,7 +35,7 @@ resource "google_cloudbuild_trigger" "deploy" {
         "--revision-suffix",
         "$SHORT_SHA",
         "--region",
-        "$LOCATION",
+        "$_K_LOCATION",
         "--no-traffic",
         "$_K_SERVICE"
       ]
@@ -48,7 +48,8 @@ resource "google_cloudbuild_trigger" "deploy" {
       var.project,
       var.artifact_registry_repository
     ])
-    _K_SERVICE = var.name
+    _K_LOCATION = var.region
+    _K_SERVICE  = var.name
   }
   depends_on = [
     google_project_service.cloudbuild

@@ -73,4 +73,7 @@ resource "google_sql_database_instance" "default" {
       settings[0].disk_size
     ]
   }
+  depends_on = [
+    google_service_networking_connection.default
+  ]
 }

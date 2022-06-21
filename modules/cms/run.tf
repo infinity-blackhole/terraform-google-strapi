@@ -109,13 +109,17 @@ resource "google_cloud_run_service" "default" {
       metadata[0].annotations,
       template[0].metadata[0].annotations,
       template[0].spec[0].containers[0].image,
-      template[0].spec[0].containers[0].env,
       template[0].spec[0].containers[0].resources[0].limits.cpu,
       template[0].spec[0].containers[0].resources[0].limits.memory,
     ]
   }
   depends_on = [
-    google_project_service.run
+    google_project_service.run,
+    google_secret_manager_secret_version.default_cloudsql_password,
+    google_secret_manager_secret_version.jwt_secret,
+    google_secret_manager_secret_version.app_keys,
+    google_secret_manager_secret_version.api_token_salt,
+    google_secret_manager_secret_version.admin_jwt_secret
   ]
 }
 
