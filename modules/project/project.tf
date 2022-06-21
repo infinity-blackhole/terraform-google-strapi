@@ -15,10 +15,3 @@ resource "google_project_service" "compute" {
   disable_dependent_services = false
   disable_on_destroy         = false
 }
-
-resource "google_project_service" "service_networking" {
-  project                    = var.project
-  service                    = "servicenetworking.googleapis.com"
-  disable_dependent_services = false
-  disable_on_destroy         = false
-}
