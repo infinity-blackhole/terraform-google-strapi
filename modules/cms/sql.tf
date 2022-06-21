@@ -8,10 +8,7 @@ resource "google_sql_database" "default" {
 }
 
 resource "random_password" "default_cloudsql" {
-  length  = 80
-  lower   = true
-  upper   = true
-  number  = true
+  length  = 32
   special = false
 }
 
