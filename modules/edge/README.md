@@ -51,5 +51,8 @@ No modules.
 
 ## Outputs
 
-No outputs.
+| Name | Description |
+|------|-------------|
+| <a name="output_global_ipv4_address"></a> [global\_ipv4\_address](#output\_global\_ipv4\_address) | n/a |
+| <a name="output_global_ipv6_address"></a> [global\_ipv6\_address](#output\_global\_ipv6\_address) | n/a |
 <!-- END_TF_DOCS -->
