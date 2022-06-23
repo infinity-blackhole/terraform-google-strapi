@@ -37,7 +37,8 @@ resource "google_secret_manager_secret" "admin_jwt_secret" {
 }
 
 resource "random_string" "admin_jwt_secret" {
-  length = 32
+  length  = 32
+  special = false
 }
 
 resource "google_secret_manager_secret_version" "admin_jwt_secret" {
@@ -64,7 +65,8 @@ resource "google_secret_manager_secret" "api_token_salt" {
 }
 
 resource "random_string" "api_token_salt" {
-  length = 32
+  length  = 32
+  special = false
 }
 
 resource "google_secret_manager_secret_version" "api_token_salt" {
@@ -91,7 +93,8 @@ resource "google_secret_manager_secret" "app_keys" {
 }
 
 resource "random_string" "app_keys" {
-  length = 32
+  length  = 32
+  special = false
 }
 
 resource "google_secret_manager_secret_version" "app_keys" {
@@ -118,7 +121,8 @@ resource "google_secret_manager_secret" "jwt_secret" {
 }
 
 resource "random_string" "jwt_secret" {
-  length = 32
+  length  = 32
+  special = false
 }
 
 resource "google_secret_manager_secret_version" "jwt_secret" {
